@@ -1,44 +1,57 @@
-# Customer-Sentiment-Analysis
-### Domain-Adaptive Transformer Models
+🎬 Customer Sentiment Analysis
+Domain-Adaptive Transformer Models for Feedback Understanding
 
-## Overview
-This project reframes **sentiment analysis** as a **customer insight and feedback understanding** problem rather than a purely text classification task.  
-The goal is to capture **domain-specific sentiment patterns** present in long-form movie reviews, which are often missed by generic pretrained language models.
+🔍 Overview
 
-An **end-to-end NLP pipeline** was built using transformer architectures, combining:
-- Exploratory analysis of large-scale unlabeled text  
-- Domain-adaptive pretraining via Masked Language Modeling (MLM)  
-- Supervised fine-tuning for binary sentiment classification  
+This project reframes sentiment analysis as a customer insight and feedback understanding problem rather than a simple text classification task.
 
-The final system was **containerized with Docker** and deployed on **Azure App Service (Linux)** to simulate a production-ready NLP workflow.
+Instead of relying solely on generic pretrained language models, the system adapts transformer representations to the movie-review domain, capturing:
 
----
+Domain-specific vocabulary usage
 
-## Problem Motivation
-Generic pretrained language models often struggle with:
-- Domain-specific vocabulary usage  
-- Subtle sentiment cues such as **sarcasm and irony**  
-- Contextual sentiment shifts common in long customer reviews  
+Subtle sentiment cues (sarcasm, irony)
 
-This project investigates whether **domain-adaptive pretraining** improves sentiment reliability for downstream **customer insight and feedback analysis** tasks.
+Contextual sentiment shifts in long-form feedback
 
----
+An end-to-end NLP pipeline was developed and deployed in a production-like environment using Docker and Azure App Service.
 
-## 📂 Dataset
-### Large Movie Review Dataset v1.0 (IMDB)
+🎯 Problem Motivation
 
-**Key Characteristics**
-- **50,000 labeled reviews**
-  - 25,000 training  
-  - 25,000 testing  
-  - Balanced polarity (25k positive, 25k negative)
-- **50,000 unlabeled reviews** used for unsupervised learning
-- Train and test splits contain **disjoint movies** (prevents leakage)
-- Maximum **30 reviews per movie** to reduce correlation bias
+Generic pretrained transformers often underperform on domain-specific customer feedback due to:
 
-**Label Definition**
-- Positive → Rating ≥ 7  
-- Negative → Rating ≤ 4  
-- Neutral reviews excluded from supervised splits
+Vocabulary mismatch
 
-**Directory Structure**
+Over-reliance on surface-level sentiment words
+
+Poor handling of mixed or delayed sentiment expression
+
+This project evaluates whether domain-adaptive pretraining (MLM) improves downstream sentiment classification reliability.
+
+📂 Dataset
+Large Movie Review Dataset v1.0 (IMDB)
+
+Key Characteristics
+
+50,000 labeled reviews
+
+25,000 training
+
+25,000 testing
+
+Balanced polarity (positive / negative)
+
+50,000 unlabeled reviews for unsupervised pretraining
+
+Train/test splits contain disjoint movies (prevents leakage)
+
+Maximum 30 reviews per movie to reduce correlation bias
+
+Label Definition
+
+Positive → Rating ≥ 7
+
+Negative → Rating ≤ 4
+
+Neutral reviews excluded
+
+Directory Structure
