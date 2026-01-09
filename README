@@ -48,7 +48,7 @@ This project investigates whether **domain-adaptive pretraining using Masked Lan
 - Neutral reviews excluded from supervised splits  
 
 **Directory Structure**
-text
+```text
 train/
 ├── pos/
 ├── neg/
