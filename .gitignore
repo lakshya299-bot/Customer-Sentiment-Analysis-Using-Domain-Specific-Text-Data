@@ -1,0 +1,23 @@
+# ML artifacts
+model/
+models/
+model_quantized/
+model_quantized_onnx/
+*.onnx
+*.pkl
+*.pt
+*.joblib
+
+# Data
+data/
+*.csv
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.env
+
+# OS
+.DS_Store
+
