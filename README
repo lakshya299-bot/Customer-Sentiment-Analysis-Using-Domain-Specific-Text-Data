@@ -1,57 +1,58 @@
-🎬 Customer Sentiment Analysis
-Domain-Adaptive Transformer Models for Feedback Understanding
+# 🎬 Customer Sentiment Analysis  
+### Domain-Adaptive Transformer Models for Feedback Understanding
 
-🔍 Overview
+![Python](https://img.shields.io/badge/Python-3.9+-blue)
+![Transformers](https://img.shields.io/badge/HuggingFace-Transformers-yellow)
+![Docker](https://img.shields.io/badge/Docker-Containerized-blue)
+![Azure](https://img.shields.io/badge/Azure-App%20Service-lightblue)
 
-This project reframes sentiment analysis as a customer insight and feedback understanding problem rather than a simple text classification task.
+---
 
-Instead of relying solely on generic pretrained language models, the system adapts transformer representations to the movie-review domain, capturing:
+## 🔍 Overview
+This project reframes **sentiment analysis** as a **customer insight and feedback understanding** problem rather than a simple text classification task.
 
-Domain-specific vocabulary usage
+Instead of relying solely on generic pretrained language models, the system adapts transformer representations to the **movie-review domain**, enabling it to capture:
+- Domain-specific vocabulary usage  
+- Subtle sentiment cues such as sarcasm and irony  
+- Contextual sentiment shifts in long-form customer feedback  
 
-Subtle sentiment cues (sarcasm, irony)
+An **end-to-end NLP pipeline** was developed and deployed in a **production-like environment** using Docker and Azure App Service.
 
-Contextual sentiment shifts in long-form feedback
+---
 
-An end-to-end NLP pipeline was developed and deployed in a production-like environment using Docker and Azure App Service.
-
-🎯 Problem Motivation
-
+## 🎯 Problem Motivation
 Generic pretrained transformers often underperform on domain-specific customer feedback due to:
+- Vocabulary mismatch between pretraining corpora and review text  
+- Over-reliance on surface-level sentiment keywords  
+- Difficulty handling mixed or delayed sentiment expression  
 
-Vocabulary mismatch
+This project investigates whether **domain-adaptive pretraining using Masked Language Modeling (MLM)** improves downstream sentiment classification reliability.
 
-Over-reliance on surface-level sentiment words
+---
 
-Poor handling of mixed or delayed sentiment expression
+## 📂 Dataset
+### Large Movie Review Dataset v1.0 (IMDB)
 
-This project evaluates whether domain-adaptive pretraining (MLM) improves downstream sentiment classification reliability.
+**Key Characteristics**
+- **50,000 labeled reviews**
+  - 25,000 training  
+  - 25,000 testing  
+  - Balanced polarity (positive / negative)
+- **50,000 unlabeled reviews** used for unsupervised pretraining  
+- Train and test splits contain **disjoint movies** (prevents data leakage)
+- Maximum **30 reviews per movie** to reduce correlation bias  
 
-📂 Dataset
-Large Movie Review Dataset v1.0 (IMDB)
+**Label Definition**
+- Positive → Rating ≥ 7  
+- Negative → Rating ≤ 4  
+- Neutral reviews excluded from supervised splits  
 
-Key Characteristics
-
-50,000 labeled reviews
-
-25,000 training
-
-25,000 testing
-
-Balanced polarity (positive / negative)
-
-50,000 unlabeled reviews for unsupervised pretraining
-
-Train/test splits contain disjoint movies (prevents leakage)
-
-Maximum 30 reviews per movie to reduce correlation bias
-
-Label Definition
-
-Positive → Rating ≥ 7
-
-Negative → Rating ≤ 4
-
-Neutral reviews excluded
-
-Directory Structure
+**Directory Structure**
+text
+train/
+├── pos/
+├── neg/
+└── unsup/
+test/
+├── pos/
+└── neg/
