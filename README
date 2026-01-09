@@ -2,22 +2,22 @@
 *Domain-Adaptive Transformer Models*
 
 ## Overview
-This project frames sentiment analysis as a customer insight and feedback understanding problem, aiming to capture domain-specific sentiment patterns present in movie reviews rather than relying solely on generic language models.
+This project frames sentiment analysis as a **customer insight and feedback understanding problem**, aiming to capture **domain-specific sentiment patterns** present in movie reviews rather than relying solely on generic language models.
 
 An end-to-end NLP pipeline was built using transformer architectures, combining:
-- Exploratory analysis of large-scale unlabeled text
-- Domain-adaptive pretraining using Masked Language Modeling (MLM)
-- Supervised fine-tuning for binary sentiment classification
+- Exploratory analysis of large-scale unlabeled text  
+- Domain-adaptive pretraining using Masked Language Modeling (MLM)  
+- Supervised fine-tuning for binary sentiment classification  
 
-The system was evaluated across multiple transformer variants and deployed in a production-like environment using Docker on Azure App Service (Linux).
+The system was evaluated across multiple transformer variants and deployed in a **production-like environment using Docker on Azure App Service (Linux)**.
 
 ---
 
 ## Problem Motivation
 Generic pretrained language models often fail to capture:
-- Domain-specific vocabulary usage
-- Subtle sentiment cues such as sarcasm and irony
-- Contextual sentiment shifts common in long-form customer feedback
+- Domain-specific vocabulary usage  
+- Subtle sentiment cues such as sarcasm and irony  
+- Contextual sentiment shifts common in long-form customer feedback  
 
 This project investigates whether adapting transformer representations to the movie-review domain improves sentiment classification reliability for downstream customer insight tasks.
 
@@ -27,13 +27,13 @@ This project investigates whether adapting transformer representations to the mo
 ### Large Movie Review Dataset v1.0 (IMDB)
 
 **Core characteristics:**
-- 50,000 labeled reviews  
+- **50,000 labeled reviews**
   - 25,000 training  
   - 25,000 testing  
-  - Balanced polarity (25k positive, 25k negative)
-- 50,000 unlabeled reviews for unsupervised learning
-- Train and test splits contain disjoint movies, preventing data leakage
-- Maximum of 30 reviews per movie to reduce correlation bias
+  - Balanced polarity (25k positive, 25k negative)  
+- **50,000 unlabeled reviews** for unsupervised learning  
+- Train and test splits contain **disjoint movies**, preventing data leakage  
+- Maximum of **30 reviews per movie** to reduce correlation bias  
 
 **Label definition:**
 - Positive: rating ≥ 7  
@@ -41,6 +41,7 @@ This project investigates whether adapting transformer representations to the mo
 - Neutral reviews excluded from supervised splits  
 
 **Directory structure:**
+```text
 train/
 ├── pos/
 ├── neg/
@@ -48,116 +49,3 @@ train/
 test/
 ├── pos/
 └── neg/
-
-Unlabeled reviews include mixed ratings and were used exclusively for domain-adaptive pretraining.
-
-**Citation:**  
-Maas et al., *Learning Word Vectors for Sentiment Analysis*, ACL 2011.
-
----
-
-## Exploratory Data Analysis (EDA)
-Exploratory analysis was performed on 50K unlabeled reviews to examine:
-- Vocabulary shifts relative to generic corpora
-- Domain-specific sentiment expressions
-- Review length distribution and sentiment skew
-- Prevalence of sarcasm and mixed-polarity language
-
-Insights from EDA informed sequence-length selection and motivated domain-adaptive pretraining.
-
----
-
-## Methodology
-
-### Text Preprocessing
-Minimal preprocessing was applied to preserve linguistic structure:
-- Removal of HTML line breaks (`<br />`)
-- Whitespace normalization
-- No stopword removal, stemming, or punctuation stripping
-
-This strategy aligns with transformer pretraining assumptions.
-
----
-
-### Domain-Adaptive Pretraining (MLM)
-To align transformer representations with domain-specific language patterns:
-- Base model: `bert-base-uncased`
-- Objective: Masked Language Modeling (MLM)
-- Mask probability: 15%
-- Max sequence length: 128
-- Epochs: 2
-
-The resulting checkpoint captures stylistic and contextual nuances of movie reviews beyond generic pretraining.
-
----
-
-### Supervised Fine-Tuning
-Binary sentiment classification was performed using labeled IMDB data:
-- Task: Positive vs Negative sentiment
-- Max sequence length: 256
-- Optimizer: AdamW
-- Learning rate: conservatively tuned to avoid overfitting
-- Epochs: 3
-- Metrics: Accuracy, Precision, Recall, F1-score, ROC-AUC
-
----
-
-## Model Comparison & Results
-
-### Comparative Evaluation
-
-| Model        | Accuracy | ROC-AUC |
-|--------------|----------|--------|
-| BERT (MLM-adapted) | ~0.90 | ~0.91 |
-| DistilBERT   | ~0.91 | ~0.92 |
-| RoBERTa      | ~0.92 | ~0.93 |
-
-RoBERTa was selected based on balanced performance across accuracy and ROC-AUC rather than peak metrics alone.
-
----
-
-### Final Classification Performance (RoBERTa)
-- Accuracy: ~92%
-- Precision: ~0.92
-- Recall: ~0.95
-- F1-score: ~0.93
-- ROC-AUC: ~0.93
-
-These results demonstrate improved sentiment classification on domain-specific data compared to non-adapted baselines, while remaining realistic for production deployment.
-
----
-
-## Error Analysis
-
-**False Positives**
-- Sarcasm or ironic phrasing
-- Positive lexical cues in negative contexts
-- Mixed sentiment reviews with negative conclusions
-
-**False Negatives**
-- Subtle or delayed expressions of praise
-- Long reviews with sentiment shifts late in the text
-- Weakly positive language lacking strong sentiment markers
-
-These error patterns align with known challenges in sentiment analysis.
-
----
-
-## Deployment
-The sentiment inference pipeline was containerized and deployed using:
-- Docker
-- Azure App Service (Linux)
-
-This setup supports scalable execution, reproducible inference, and production-like evaluation of NLP workflows.
-
----
-
-## Interview-Ready Summary
-“I framed sentiment analysis as a customer feedback understanding problem and applied domain-adaptive pretraining using masked language modeling on unlabeled IMDB reviews. I compared BERT, DistilBERT, and RoBERTa, selecting RoBERTa based on balanced accuracy and ROC-AUC. The final system achieved around 90%+ accuracy and was deployed using Docker on Azure App Service.”
-
----
-
-## Repository Notes
-- Source code only (no models or datasets tracked)
-- Model artifacts are packaged inside Docker images
-- Dataset is referenced but not redistributed
